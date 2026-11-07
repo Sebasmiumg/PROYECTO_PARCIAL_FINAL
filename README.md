@@ -13,7 +13,7 @@ Prototipo Android en Kotlin para guardar las tareas del día sin cuenta ni conex
 
 ## Abrir y ejecutar
 
-1. Abre la carpeta `PendientesApp` en Android Studio.
+1. Abre en Android Studio la carpeta del repositorio que contiene `settings.gradle.kts`.
 2. Sincroniza Gradle y asegúrate de tener instalado Android SDK Platform 36.
 3. Ejecuta la configuración `app` en un emulador o dispositivo con Android 7.0 (API 24) o posterior.
 
