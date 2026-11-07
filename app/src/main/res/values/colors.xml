@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#F4F6FA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="ink">#17243A</color>
+    <color name="muted">#77839A</color>
+    <color name="primary">#4059C7</color>
+    <color name="primary_dark">#2D419F</color>
+    <color name="primary_soft">#E8ECFF</color>
+    <color name="success">#198568</color>
+    <color name="success_soft">#E3F4EE</color>
+    <color name="danger">#BD4C52</color>
+    <color name="border">#E5E9F1</color>
+    <color name="white">#FFFFFF</color>
+</resources>
