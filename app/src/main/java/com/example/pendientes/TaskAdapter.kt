@@ -8,7 +8,9 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskAdapter(
+    private val onOpen: (Task) -> Unit
+) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     private val tasks = mutableListOf<Task>()
 
     fun submitList(newTasks: List<Task>) {
@@ -45,6 +47,7 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
                 itemView.context.getColor(if (task.completed) R.color.success else R.color.muted)
             )
 
+            itemView.setOnClickListener { onOpen(task) }
         }
     }
 }

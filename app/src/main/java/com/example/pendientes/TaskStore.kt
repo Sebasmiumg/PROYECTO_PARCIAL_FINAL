@@ -9,6 +9,8 @@ object TaskStore {
 
     fun getAll(context: Context): List<Task> = tasks.sortedByDescending(Task::createdAt)
 
+    fun find(context: Context, id: String): Task? = tasks.firstOrNull { it.id == id }
+
     fun add(context: Context, description: String): Task {
         val task = Task(UUID.randomUUID().toString(), description, false, System.currentTimeMillis())
         tasks.add(task)

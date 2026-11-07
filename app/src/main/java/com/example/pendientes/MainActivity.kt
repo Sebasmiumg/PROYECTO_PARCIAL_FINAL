@@ -24,7 +24,7 @@ class MainActivity : Activity() {
         emptyState = findViewById(R.id.emptyState)
         taskCount = findViewById(R.id.taskCount)
 
-        taskAdapter = TaskAdapter()
+        taskAdapter = TaskAdapter(onOpen = ::openDetails)
         taskList.layoutManager = LinearLayoutManager(this)
         taskList.adapter = taskAdapter
 
@@ -61,6 +61,13 @@ class MainActivity : Activity() {
         taskAdapter.submitList(tasks)
         emptyState.visibility = if (tasks.isEmpty()) View.VISIBLE else View.GONE
         taskCount.text = if (tasks.size == 1) "1 tarea" else "${tasks.size} tareas"
+    }
+
+    private fun openDetails(task: Task) {
+        startActivity(
+            Intent(this, TaskDetailActivity::class.java)
+                .putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.id)
+        )
     }
 
     companion object {
