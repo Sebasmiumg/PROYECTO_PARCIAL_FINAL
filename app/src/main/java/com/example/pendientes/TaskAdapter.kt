@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class TaskAdapter(
     private val onOpen: (Task) -> Unit,
-    private val onToggle: (String) -> Unit
+    private val onToggle: (String) -> Unit,
+    private val onDelete: (Task) -> Unit
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     private val tasks = mutableListOf<Task>()
 
@@ -36,6 +37,7 @@ class TaskAdapter(
         private val checkBox: CheckBox = itemView.findViewById(R.id.completedCheckBox)
         private val taskDescription: TextView = itemView.findViewById(R.id.taskDescription)
         private val taskStatus: TextView = itemView.findViewById(R.id.taskStatus)
+        private val deleteButton: TextView = itemView.findViewById(R.id.deleteTaskButton)
 
         fun bind(task: Task) {
             taskDescription.text = task.description
@@ -57,6 +59,7 @@ class TaskAdapter(
             checkBox.isChecked = task.completed
             checkBox.setOnClickListener { onToggle(task.id) }
             itemView.setOnClickListener { onOpen(task) }
+            deleteButton.setOnClickListener { onDelete(task) }
         }
     }
 }

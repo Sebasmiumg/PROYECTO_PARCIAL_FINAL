@@ -1,6 +1,7 @@
 package com.example.pendientes
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -32,6 +33,7 @@ class TaskDetailActivity : Activity() {
 
         findViewById<TextView>(R.id.backToListButton).setOnClickListener { finish() }
         toggleButton.setOnClickListener { toggleCompletion() }
+        findViewById<Button>(R.id.deleteDetailButton).setOnClickListener { confirmDelete() }
         renderTask()
     }
 
@@ -69,6 +71,20 @@ class TaskDetailActivity : Activity() {
         val task = TaskStore.find(this, id) ?: return
         TaskStore.setCompleted(this, id, !task.completed)
         renderTask()
+    }
+
+    private fun confirmDelete() {
+        val id = taskId ?: return
+        AlertDialog.Builder(this)
+            .setTitle("Eliminar tarea")
+            .setMessage("Esta tarea se eliminará del dispositivo.")
+            .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Eliminar") { _, _ ->
+                TaskStore.delete(this, id)
+                setResult(RESULT_OK)
+                finish()
+            }
+            .show()
     }
 
     companion object {

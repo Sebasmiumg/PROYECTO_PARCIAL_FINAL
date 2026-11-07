@@ -21,4 +21,8 @@ object TaskStore {
         val index = tasks.indexOfFirst { it.id == id }
         if (index >= 0) tasks[index] = tasks[index].copy(completed = completed)
     }
+
+    fun delete(context: Context, id: String) {
+        tasks.removeAll { it.id == id }
+    }
 }

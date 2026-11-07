@@ -24,7 +24,11 @@ class MainActivity : Activity() {
         emptyState = findViewById(R.id.emptyState)
         taskCount = findViewById(R.id.taskCount)
 
-        taskAdapter = TaskAdapter(onOpen = ::openDetails, onToggle = ::toggleTask)
+        taskAdapter = TaskAdapter(
+            onOpen = ::openDetails,
+            onToggle = ::toggleTask,
+            onDelete = ::confirmDelete
+        )
         taskList.layoutManager = LinearLayoutManager(this)
         taskList.adapter = taskAdapter
 
@@ -74,6 +78,18 @@ class MainActivity : Activity() {
         val task = TaskStore.find(this, id) ?: return
         TaskStore.setCompleted(this, id, !task.completed)
         refreshTasks()
+    }
+
+    private fun confirmDelete(task: Task) {
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Eliminar tarea")
+            .setMessage("¿Quieres eliminar «${task.description}»?")
+            .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Eliminar") { _, _ ->
+                TaskStore.delete(this, task.id)
+                refreshTasks()
+            }
+            .show()
     }
 
     companion object {
