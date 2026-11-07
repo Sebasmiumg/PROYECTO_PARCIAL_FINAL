@@ -9,7 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class TaskAdapter(
-    private val onOpen: (Task) -> Unit
+    private val onOpen: (Task) -> Unit,
+    private val onToggle: (String) -> Unit
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     private val tasks = mutableListOf<Task>()
 
@@ -32,6 +33,7 @@ class TaskAdapter(
     override fun getItemCount(): Int = tasks.size
 
     inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val checkBox: CheckBox = itemView.findViewById(R.id.completedCheckBox)
         private val taskDescription: TextView = itemView.findViewById(R.id.taskDescription)
         private val taskStatus: TextView = itemView.findViewById(R.id.taskStatus)
 
@@ -47,6 +49,13 @@ class TaskAdapter(
                 itemView.context.getColor(if (task.completed) R.color.success else R.color.muted)
             )
 
+            checkBox.contentDescription = if (task.completed) {
+                "Marcar ${task.description} como pendiente"
+            } else {
+                "Marcar ${task.description} como completada"
+            }
+            checkBox.isChecked = task.completed
+            checkBox.setOnClickListener { onToggle(task.id) }
             itemView.setOnClickListener { onOpen(task) }
         }
     }

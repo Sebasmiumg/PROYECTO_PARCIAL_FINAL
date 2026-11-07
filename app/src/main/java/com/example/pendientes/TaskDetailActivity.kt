@@ -13,6 +13,7 @@ class TaskDetailActivity : Activity() {
     private lateinit var status: TextView
     private lateinit var description: TextView
     private lateinit var createdAt: TextView
+    private lateinit var toggleButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +28,10 @@ class TaskDetailActivity : Activity() {
         status = findViewById(R.id.detailStatus)
         description = findViewById(R.id.detailDescription)
         createdAt = findViewById(R.id.detailCreatedAt)
+        toggleButton = findViewById(R.id.toggleCompleteButton)
 
         findViewById<TextView>(R.id.backToListButton).setOnClickListener { finish() }
+        toggleButton.setOnClickListener { toggleCompletion() }
         renderTask()
     }
 
@@ -58,6 +61,14 @@ class TaskDetailActivity : Activity() {
         val date = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
             .format(Date(task.createdAt))
         createdAt.text = "Creada el $date"
+        toggleButton.text = if (task.completed) "Marcar como pendiente" else "Marcar como completada"
+    }
+
+    private fun toggleCompletion() {
+        val id = taskId ?: return
+        val task = TaskStore.find(this, id) ?: return
+        TaskStore.setCompleted(this, id, !task.completed)
+        renderTask()
     }
 
     companion object {

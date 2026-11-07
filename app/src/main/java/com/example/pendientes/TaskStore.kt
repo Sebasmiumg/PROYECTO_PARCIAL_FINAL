@@ -16,4 +16,9 @@ object TaskStore {
         tasks.add(task)
         return task
     }
+
+    fun setCompleted(context: Context, id: String, completed: Boolean) {
+        val index = tasks.indexOfFirst { it.id == id }
+        if (index >= 0) tasks[index] = tasks[index].copy(completed = completed)
+    }
 }

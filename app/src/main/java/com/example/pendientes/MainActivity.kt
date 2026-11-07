@@ -24,7 +24,7 @@ class MainActivity : Activity() {
         emptyState = findViewById(R.id.emptyState)
         taskCount = findViewById(R.id.taskCount)
 
-        taskAdapter = TaskAdapter(onOpen = ::openDetails)
+        taskAdapter = TaskAdapter(onOpen = ::openDetails, onToggle = ::toggleTask)
         taskList.layoutManager = LinearLayoutManager(this)
         taskList.adapter = taskAdapter
 
@@ -68,6 +68,12 @@ class MainActivity : Activity() {
             Intent(this, TaskDetailActivity::class.java)
                 .putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.id)
         )
+    }
+
+    private fun toggleTask(id: String) {
+        val task = TaskStore.find(this, id) ?: return
+        TaskStore.setCompleted(this, id, !task.completed)
+        refreshTasks()
     }
 
     companion object {
