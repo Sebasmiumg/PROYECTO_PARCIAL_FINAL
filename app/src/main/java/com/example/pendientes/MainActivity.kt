@@ -28,12 +28,32 @@ class MainActivity : Activity() {
         taskList.layoutManager = LinearLayoutManager(this)
         taskList.adapter = taskAdapter
 
+        findViewById<Button>(R.id.addTaskButton).setOnClickListener {
+            startActivityForResult(
+                Intent(this, AddTaskActivity::class.java),
+                REQUEST_ADD_TASK
+            )
+        }
         refreshTasks()
     }
 
     override fun onResume() {
         super.onResume()
         if (::taskAdapter.isInitialized) refreshTasks()
+    }
+
+    @Deprecated("Kept for broad Android compatibility in this small prototype")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_ADD_TASK && resultCode == RESULT_OK) {
+            val description = data?.getStringExtra(AddTaskActivity.EXTRA_DESCRIPTION)
+                ?.trim()
+                .orEmpty()
+            if (description.isNotEmpty()) {
+                TaskStore.add(this, description)
+                refreshTasks()
+            }
+        }
     }
 
     private fun refreshTasks() {
@@ -43,4 +63,7 @@ class MainActivity : Activity() {
         taskCount.text = if (tasks.size == 1) "1 tarea" else "${tasks.size} tareas"
     }
 
+    companion object {
+        private const val REQUEST_ADD_TASK = 1001
+    }
 }

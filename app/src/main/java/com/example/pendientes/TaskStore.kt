@@ -8,4 +8,10 @@ object TaskStore {
     private val tasks = mutableListOf<Task>()
 
     fun getAll(context: Context): List<Task> = tasks.sortedByDescending(Task::createdAt)
+
+    fun add(context: Context, description: String): Task {
+        val task = Task(UUID.randomUUID().toString(), description, false, System.currentTimeMillis())
+        tasks.add(task)
+        return task
+    }
 }
